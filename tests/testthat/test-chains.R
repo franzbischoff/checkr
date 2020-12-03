@@ -1,14 +1,14 @@
 context("chains")
 
 test_that("Can identify an expression as a chain ", {
-  expect_true(checkr:::is_chain(quo(3 %>% sqrt)))
-  expect_false(checkr:::is_chain(quo(7)))
-  expect_false(checkr:::is_chain(quo(sin(7))))
-  expect_false(checkr:::is_chain(quo(mtcars)))
+  expect_true(examiner:::is_chain(quo(3 %>% sqrt)))
+  expect_false(examiner:::is_chain(quo(7)))
+  expect_false(examiner:::is_chain(quo(sin(7))))
+  expect_false(examiner:::is_chain(quo(mtcars)))
 })
 
 test_that("Can find a chain in a sequence of lines", {
-  CODE <- for_checkr(quote({data(mtcars, package = "datasets"); mtcars %>% lm(mpg ~ cyl, data = .)}))
+  CODE <- for_examiner(quote({data(mtcars, package = "datasets"); mtcars %>% lm(mpg ~ cyl, data = .)}))
   r1 <- line_chaining(CODE)
   expect_false(failed(r1))
   expect_true(length(r1$code) == 1)
@@ -19,7 +19,7 @@ test_that("Can find a chain in a sequence of lines", {
 })
 
 test_that("Can expand single chains.", {
-  CODE <- for_checkr(quote({data(mtcars, package = "datasets");
+  CODE <- for_examiner(quote({data(mtcars, package = "datasets");
     mtcars %>% lm(mpg ~ cyl, data = .) %>% summary(.)}))
   r1 <- line_chaining(CODE)
   r1 <- expand_chain(r1)
@@ -29,7 +29,7 @@ test_that("Can expand single chains.", {
 })
 
 test_that("Can expand the chains in a sequence of lines", {
-  CODE <- for_checkr(quote({data(mtcars, package = "datasets");
+  CODE <- for_examiner(quote({data(mtcars, package = "datasets");
     mtcars %>% lm(mpg ~ cyl, data = .) %>% summary(.)}))
   r1 <- expand_all_chains(CODE)
   expect_equal(length(r1$code), 4)
@@ -38,7 +38,7 @@ test_that("Can expand the chains in a sequence of lines", {
 })
 
 test_that("Can handle chains with just 1 link", {
-  CODE <- for_checkr(quote({data(mtcars, package = "datasets");
+  CODE <- for_examiner(quote({data(mtcars, package = "datasets");
     mtcars %>% lm(mpg ~ cyl, data = .) }))
   r1 <- line_chaining(CODE)
   r2 <- expand_chain(r1)
@@ -49,7 +49,7 @@ test_that("Can handle chains with just 1 link", {
 })
 
 test_that("Chain expansion works even when functions don't have . as an explicit argument.", {
-  code <- for_checkr(quote({x <- 3 %>% sin( ) %>% cos(); x %>% sqrt() %>% log()}))
+  code <- for_examiner(quote({x <- 3 %>% sin( ) %>% cos(); x %>% sqrt() %>% log()}))
   lineA <- line_chaining(code)
   r1 <- expand_chain(lineA)
   expect_equal(length(r1$code), 3)

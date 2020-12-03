@@ -1,2 +1,2 @@
-library(checkr)
+library(examiner)
 library(ggplot2)

@@ -4,11 +4,11 @@
 #' If any errors are found, a diagnostic message is returned.
 #'
 #' @param user_code A character string containing the code to be checked. Note that
-#' this is a character string, not a checkr_result. Constructing a checkr_result requires
+#' this is a character string, not a examiner_result. Constructing a examiner_result requires
 #' that the code be evaluated, while this function is for pre-evaluation checking.
 #' @param soln_code Code, if any, containing a correct solution.
 #'
-#' @return A `checkr_result` object.
+#' @return A `examiner_result` object.
 #'
 #' @examples
 #' code <- "lm(mpg ~ hp, data <- mtcars); plot(1:10); x <- 1\n y <- x^2\n\n z = cos(yy * xx^2)"
@@ -51,7 +51,7 @@ pre_check <- function(user_code, soln_code = "hello") {
   parsed <- eliminate_output_lines(parsed)
   problem_line_no <- which(unlist(lapply(parsed, is_error)))
   if (length(problem_line_no) == 0) # we're done
-    return(new_checkr_result(action = "pass", message = "Pre-check passed!"))
+    return(new_examiner_result(action = "pass", message = "Pre-check passed!"))
 
   # What source line did the problem come up in?
   source_line <- lapply(parsed, is_source)
@@ -85,7 +85,7 @@ pre_check <- function(user_code, soln_code = "hello") {
       if (is_blank) ", there is an unfilled blank."
       else paste0(": '", match,
                   "' is not the name of an existing ", kind_of_object, ".")
-    return(new_checkr_result(action = "fail",
+    return(new_examiner_result(action = "fail",
                 message =
                   paste0("On line ", line_no - 1, " or ", line_no, details)))
   }
@@ -99,12 +99,12 @@ pre_check <- function(user_code, soln_code = "hello") {
       if (is_blank) ", there is an unfilled blank."
     else paste0(": '", match,
                 "' is not the name of any function.")
-    return(new_checkr_result(action = "fail",
+    return(new_examiner_result(action = "fail",
                              message =
                                paste0("On line ", line_no, details)))
   }
 
-  new_checkr_result(action = "pass",
+  new_examiner_result(action = "pass",
        message = paste("Failure not yet included in pre_check(). Code was",
                        as.character(error_call), "with error: ", error_string))
 }

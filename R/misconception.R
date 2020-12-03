@@ -4,12 +4,12 @@
 #' `misconception()` let's you mark a pattern as such, causing the test to fail if the pattern
 #' is found.
 #'
-#' @param ex A checkr result to use as input
-#' @param pattern A code pattern as found by any of the functions returning a checkr_result object.
+#' @param ex A examiner result to use as input
+#' @param pattern A code pattern as found by any of the functions returning a examiner_result object.
 #' @param message The message to give if the `pattern` is found.
 #'
 #' @examples
-#' code <- for_checkr(quote({theta <- 53; x <- sin(theta)}))
+#' code <- for_examiner(quote({theta <- 53; x <- sin(theta)}))
 #' misconception(code,
 #'   line_where(code,
 #'              passif(V == 53)),
@@ -19,7 +19,7 @@
 #'
 #' @export
 misconception <- function(ex, pattern, message) {
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   if (failed(ex)) return(ex) # short circuit
   res <- pattern
   if (passed(res) || ok(res)) { # the pattern was found!

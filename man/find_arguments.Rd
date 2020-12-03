@@ -68,10 +68,10 @@ Use these functions to find a particular argument in an expression.
 \details{
 If the expression isn't a call, it still has a value. These functions
 return that value if it's a match to the type sought. If ex directly from
-for_checkr(), only the first expression is checked.
+for_examiner(), only the first expression is checked.
 }
 \examples{
-code <- for_checkr(quote(lm(mpg ~ hp, data = mtcars)))
+code <- for_examiner(quote(lm(mpg ~ hp, data = mtcars)))
 formula_arg(code)
 data_arg(code,
   insist("hp" \%in\% names(V),

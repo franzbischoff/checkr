@@ -11,7 +11,7 @@
 #' @param ... expressions for the permissible parts of the formula
 #'
 #' @examples
-#' CODE <- for_checkr(quote({
+#' CODE <- for_examiner(quote({
 #'    data(mtcars, package = "datasets")
 #'    mod <- lm(mpg ~ hp * wt + cyl, data = mtcars)
 #'    }))

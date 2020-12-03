@@ -1,6 +1,6 @@
 context("test formulas")
 
-CODE <- for_checkr(
+CODE <- for_examiner(
   quote({ data(mtcars, package = "datasets")
           mod <- lm(mpg + carb ~ hp*cyl, data = mtcars)
         }))

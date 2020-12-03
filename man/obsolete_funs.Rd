@@ -10,10 +10,10 @@
 \alias{all_tests}
 \alias{any_test}
 \alias{arg_is}
-\alias{checkr_tutor}
+\alias{examiner_tutor}
 \alias{check_argument}
 \alias{check_function_calls}
-\title{Defunct functions from checkr (v 0.1)}
+\title{Defunct functions from examiner (v 0.1)}
 \usage{
 capture.code(...)
 
@@ -33,7 +33,7 @@ any_test(...)
 
 arg_is(...)
 
-checkr_tutor(...)
+examiner_tutor(...)
 
 check_argument(...)
 
@@ -43,8 +43,8 @@ check_function_calls(...)
 \item{...}{whatever arguments the original functions took}
 }
 \description{
-These functions were in version 0.1 of checkr, but as of
+These functions were in version 0.1 of examiner, but as of
 version 0.3 they are not part of the system. If you are using them,
-you are using an old version of checkr. If you want to continue using them,
-install that old version: \code{devtools::install_github("dtkaplan/checkr-v-0.1")}
+you are using an old version of examiner. If you want to continue using them,
+install that old version: \code{devtools::install_github("dtkaplan/examiner-v-0.1")}
 }

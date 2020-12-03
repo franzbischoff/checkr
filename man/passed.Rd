@@ -9,7 +9,7 @@
 passed(t)
 }
 \arguments{
-\item{t}{a checkr_test_result such as produced by `line_where()``}
+\item{t}{a examiner_test_result such as produced by `line_where()``}
 }
 \description{
 Check whether a test passed or failed

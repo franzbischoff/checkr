@@ -1,12 +1,12 @@
 #' Check that argument is in radians
 #'
-#' @param ex A `checkr_result`, presumably containing a call to a trig function.
+#' @param ex A `examiner_result`, presumably containing a call to a trig function.
 #' @param radian_val a number: the desired angle in radians
 #' @param message character string message to produce on failure
 #' @param eps precision of comparison
 #'
 #' @examples
-#' ex <- for_checkr(quote(15 * sin(3)))
+#' ex <- for_examiner(quote(15 * sin(3)))
 #' trig_radian_check(ex, 3)
 #' trig_radian_check(ex, 3 * pi / 180)
 #' trig_radian_check(ex, 4*pi/180)

@@ -1,4 +1,4 @@
-# Functions internal to the checkr package.
+# Functions internal to the examiner package.
 
 # utility for copying out the bindings defined by redpen pattern
 copy_env <- function(E) {
@@ -51,10 +51,10 @@ simplify_ex_helper <- function(raw_ex) { # recursive to remove nested parens.
   else raw_ex
 }
 
-new_checkr_result <- function(action = "ok", message = "", code = NULL) {
+new_examiner_result <- function(action = "ok", message = "", code = NULL) {
   res <- list(action = action, message = message)
   if ( ! is.null(code)) res$code <- code
-  class(res) <- "checkr_result"
+  class(res) <- "examiner_result"
 
   res
 }

@@ -5,7 +5,7 @@ date: "February 2, 2018"
 output: 
   ioslides_presentation: 
     keep_md: yes
-    logo: ~/KaplanFiles/Explore/checkr/inst/RStudioConf2018/mosaic-square.png
+    logo: ~/KaplanFiles/Explore/examiner/inst/RStudioConf2018/mosaic-square.png
     self_contained: no
     smart: no
     widescreen: yes
@@ -41,11 +41,11 @@ runtime: shiny_prerendered
 
 ## The man behind the curtain
 
-Ordinarily, you would not show students the `checkr` statements implementing this behavior. But our purpose here is to introduce `checkr`, So here are the statements for the above exercise.
+Ordinarily, you would not show students the `examiner` statements implementing this behavior. But our purpose here is to introduce `examiner`, So here are the statements for the above exercise.
 
 
 ```
- [1] code <- for_checkr(USER_CODE)
+ [1] code <- for_examiner(USER_CODE)
  [2] res <- misconception(code, line_where(code, passif(is.null(F))), 
  [3]     message = paste("Just typing the string doesn't do it. Note that the output", 
  [4]         "has quotes and is formatted as an output, not a simple message."))
@@ -61,19 +61,19 @@ Ordinarily, you would not show students the `checkr` statements implementing thi
 
 Breaking this down, line by line:
 
-- [1] accepts the user submission from `learnr`. This is always called `USER_CODE`. The function `for_check()` does some pre-processing of the user submission to turn it into evaluated code and format it for use in later `checkr` functions.
-- [2] tests for a particular kind of mistaken answer. The `misconception()` function will generate a `checkr` fail message, if the pattern identified in the second argument passes. That pattern, `line_where(code, is.null(F))`, means, "scan the code looking for a line where no function is being used." This will captures a line that contains only a character string.
+- [1] accepts the user submission from `learnr`. This is always called `USER_CODE`. The function `for_check()` does some pre-processing of the user submission to turn it into evaluated code and format it for use in later `examiner` functions.
+- [2] tests for a particular kind of mistaken answer. The `misconception()` function will generate a `examiner` fail message, if the pattern identified in the second argument passes. That pattern, `line_where(code, is.null(F))`, means, "scan the code looking for a line where no function is being used." This will captures a line that contains only a character string.
 - [5] tests for another specific misconception, that the user invokes `print()` on the string. 
 - [9] looks whether the function invoked by the user is `cat()`. If not, the check fails. (Note that [5] already ruled out that `print()` was being invoked.)
 - [10] checks the argument to the `cat()` function. (We know it's `cat()`, because [9] has established this.) If that argument is exactly `"Hello, World!" the submission passes. Otherwise, we check for a particular error involving capitalization and, if that's not the case, generate a message to tell the student what's wrong.
 
 Depending on the submission, any of the checks on lines 2, 5, 9, and 10 might fail. If a check fails, later checks that use the previous result will short circuit to a failed check. For instance, if the check on line [2] fails, the remaining checks won't be performed in detail: they will just pass along the failed result from line [2].
 
-An instructor with a different pedagogical approach might prefer to structure the checking in an entirely different way. For instance, here are `checkr` statements that simply tell the user whether or not the submission did what was requested:
+An instructor with a different pedagogical approach might prefer to structure the checking in an entirely different way. For instance, here are `examiner` statements that simply tell the user whether or not the submission did what was requested:
 
 
 ```
-## [1] code <- for_checkr(USER_CODE)
+## [1] code <- for_examiner(USER_CODE)
 ## [2] line_binding(code, cat("Hello, World!"), passif(TRUE, "That's right."), 
 ## [3]     fail = "No. Try aain.")
 ```
@@ -130,13 +130,13 @@ summary(cars)
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="server-start">
 library(learnr)
-library(checkr)
+library(examiner)
 knitr::opts_chunk$set(echo = FALSE)
-tutorial_options(exercise.checker = checkr::check_for_learnr)
+tutorial_options(exercise.checker = examiner::check_for_learnr)
 # tutorial_options(exercise.checker = function(...) cat("Bogus checker\n"))
 
 hello_check <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   res <- misconception(code, line_where(code, passif(is.null(F))), 
                        message = paste(
                          "Just typing the string doesn't do it. Note that the output", 
@@ -154,7 +154,7 @@ hello_check <- function(USER_CODE) {
 }
 
 two_plus_two_check <- function(USER_CODE) {
-  res <- for_checkr(USER_CODE)
+  res <- for_examiner(USER_CODE)
   res <- line_where(res, insist(V == 4, "The result should be 4, not {{V}}."))
   res <- line_where(res, 
                     insist(F == `+`, paste(
@@ -165,7 +165,7 @@ two_plus_two_check <- function(USER_CODE) {
 }
 
 hello_fun_strict <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   line_binding(code, 
                cat("Hello, World!"),  # a pattern with no flexibility.
                passif(TRUE, "That's right."),

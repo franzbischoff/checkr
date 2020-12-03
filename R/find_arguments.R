@@ -10,7 +10,7 @@
 #'
 #' @details If the expression isn't a call, it still has a value. These functions
 #' return that value if it's a match to the type sought. If ex directly from
-#' for_checkr(), only the first expression is checked.
+#' for_examiner(), only the first expression is checked.
 #'
 #' @param ex the tidy expression to check
 #' @param ... passif/failif/okif tests
@@ -21,7 +21,7 @@
 #' will be generated if the argument isn't found. Default: empty.
 #'
 #' @examples
-#' code <- for_checkr(quote(lm(mpg ~ hp, data = mtcars)))
+#' code <- for_examiner(quote(lm(mpg ~ hp, data = mtcars)))
 #' formula_arg(code)
 #' data_arg(code,
 #'   insist("hp" %in% names(V),
@@ -86,7 +86,7 @@ table_arg <- function(ex, ..., n=1L, message = "") {
 
 generic_arg <- function(ex, type_description, type_test,
                         message = "", n = 1L, use_value = TRUE) {
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   if (failed(ex)) return(ex)
   if (length(ex$code) > 1) stop("Narrow down to a single line of code before calling.") # author
   code <- skip_assign(ex$code[[1]])
@@ -97,7 +97,7 @@ generic_arg <- function(ex, type_description, type_test,
                   "doesn't contain an argument that is",
                   type_description)
   }
-  bad_return <- new_checkr_result(action = "fail", message = message, code = ex$code)
+  bad_return <- new_examiner_result(action = "fail", message = message, code = ex$code)
 
   # But usually will be a quo
   this_env <- environment(code)
@@ -121,7 +121,7 @@ generic_arg <- function(ex, type_description, type_test,
   }
   if (found_target) {
     code = list(new_quosure(target, env = this_env))
-    new_checkr_result("ok", code = code)
+    new_examiner_result("ok", code = code)
   } else {
     bad_return
   }
@@ -130,20 +130,20 @@ generic_arg <- function(ex, type_description, type_test,
 #' @rdname find_arguments
 #' @export
 arg_number <- function(ex, n = 1L, ..., message = "") {
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   if (failed(ex)) return(ex)
   code <- simplify_ex(ex$code[[1]])
   argv <- call_args(code)
   res <-
     if (length(argv) < n) {
-      new_checkr_result(action = "fail",
+      new_examiner_result(action = "fail",
                         message = paste(expr_text(quo_expr(code)),
                                         "does not have", n, "arguments"),
                         code = ex$code)
 
     } else {
       code <- list(new_quosure(argv[[n]], env = environment(code)))
-      new_checkr_result("ok", code = code)
+      new_examiner_result("ok", code = code)
     }
   line_binding(res, I , ..., message = message, qkeys = quote({.(E); ..(V)}))
 }
@@ -157,7 +157,7 @@ first_arg <- function(ex, ..., message = "")
 #' @export
 named_arg <- function(ex, nm, ..., message = "") {
   if ( ! is.character(nm)) stop("Must specify argument name as a string.")
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   # pass along any input that is already failed.
   if (failed(ex)) return(ex)
   code <- simplify_ex(ex$code[[1]])
@@ -167,14 +167,14 @@ named_arg <- function(ex, nm, ..., message = "") {
   the_arg <- grep(nm[1], arg_names)
   res <-
     if (length(the_arg) == 0) {
-      new_checkr_result(action = "fail",
+      new_examiner_result(action = "fail",
                         message = ifelse(nchar(message), message,
                                          paste0("could not find an argument named '", nm, "'")),
                         code = ex$code)
     } else {
       # we found a match, return it along with the environment
       code <- list(new_quosure(argv[[the_arg]], env = environment(code)))
-      new_checkr_result("ok", code = code)
+      new_examiner_result("ok", code = code)
     }
   line_binding(res, I , ..., message = message, qkeys = quote({.(E); ..(V)}))
 }

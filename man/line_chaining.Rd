@@ -7,7 +7,7 @@
 line_chaining(ex, n = 1L, message = "Didn't find a chained command.")
 }
 \arguments{
-\item{ex}{A checkr_result object such as produced by \code{for_checkr()}}
+\item{ex}{A examiner_result object such as produced by \code{for_examiner()}}
 
 \item{n}{An integer indicating which line that is a chain is desired: first, second, ...}
 
@@ -22,7 +22,7 @@ A chain is itself equivalent to multiple lines. If you are interested in
 exploring within a chain, you can expand the chain into individual lines. See \code{expand_chains()}.
 }
 \examples{
-code <- for_checkr(quote({x <- 3 \%>\% sin() \%>\% cos(); x \%>\% sqrt() \%>\% log()}))
+code <- for_examiner(quote({x <- 3 \%>\% sin() \%>\% cos(); x \%>\% sqrt() \%>\% log()}))
 line_chaining(code)
 line_chaining(code, n = 2L)
 

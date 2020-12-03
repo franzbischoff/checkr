@@ -8,7 +8,7 @@
 line_where(ex, ..., message = "No such line found.")
 }
 \arguments{
-\item{ex}{a \code{"checkr_test"} object for instance as made by for_checkr()}
+\item{ex}{a \code{"examiner_test"} object for instance as made by for_examiner()}
 
 \item{...}{passif/failif/insist tests specifying the kind of line we want. The messages associated with
 each test can have moustaches written in terms of F, Z, V, or E.}
@@ -16,7 +16,7 @@ each test can have moustaches written in terms of F, Z, V, or E.}
 \item{message}{A character string message to give if no acceptable line is found.}
 }
 \value{
-A \code{"checkr_test"} result which is either a pass, fail, or OK.
+A \code{"examiner_test"} result which is either a pass, fail, or OK.
 }
 \description{
 The tests are written in terms of pronouns
@@ -37,7 +37,7 @@ if \code{insist()} is used and the test is \code{FALSE}, no further testing is p
 applies, \code{line_where()} progresses to the next of the tests in \code{...}. If none of the tests produce a definitive
 result, \code{line_where()} will return an OK result.
 
-The \code{ex} argument is a \code{"checkr_test"} object. If that input object is a fail, \code{line_where()} immediately returns
+The \code{ex} argument is a \code{"examiner_test"} object. If that input object is a fail, \code{line_where()} immediately returns
 that input: none of the tests are performed. This allows test results to be cascaded.
 
 Some important details about what types of objects F, Z, V, and E will be. V and E are straightforward: V will
@@ -45,7 +45,7 @@ always be the kinds of thing computed by the line, e.g. a vector, dataframe, and
 a language expression (minus the assignment, if any), and F will always be a character string. But Z is a name and character strings respectively.
 }
 \examples{
-ex <- for_checkr(quote({x <- 2; y <- x^3; z <- y + x}))
+ex <- for_examiner(quote({x <- 2; y <- x^3; z <- y + x}))
 line_where(ex, insist(F == "^"), message = "Didn't find exponentiation")
 
 }

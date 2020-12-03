@@ -13,10 +13,10 @@ expand_all_chains(ex)
 is_chain(ex)
 }
 \arguments{
-\item{ex}{A \code{checkr_result} object with just one line of code.}
+\item{ex}{A \code{examiner_result} object with just one line of code.}
 }
 \value{
-A \code{checkr_result} object with one line for each of the functions in the chain.
+A \code{examiner_result} object with one line for each of the functions in the chain.
 }
 \description{
 Expand a chain into a series of lines, each with \code{.} as the input.
@@ -29,7 +29,7 @@ or a function call.) The \code{expand_} functions transform chains into a sequen
 of \code{.} for each line will be the object that is an input to that line.
 }
 \examples{
-code <- for_checkr(quote({x <- 3 \%>\% sin( ) \%>\% cos(); x \%>\% sqrt() \%>\% log()}))
+code <- for_examiner(quote({x <- 3 \%>\% sin( ) \%>\% cos(); x \%>\% sqrt() \%>\% log()}))
 lineA <- line_chaining(code)
 expand_chain(lineA)
 expand_all_chains(code)

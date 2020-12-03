@@ -7,7 +7,7 @@
 #' If no pass or fail occurs, a neutral result ("ok")
 #' is created so that evaluation can proceed to subsequent statements.
 #'
-#' If any of the redpen patterns fails to match, a checkr_result "fail" is returned with
+#' If any of the redpen patterns fails to match, a examiner_result "fail" is returned with
 #' the message specified in the `message` argument, and with code being the same as the input code.
 #'
 #' In additon to the passif/failif/noteif tests, you can use `line_` functions as a test.
@@ -18,9 +18,9 @@
 #'
 #' @aliases line_binding check_binding
 #'
-#' @return A checkr_test object with an action ("pass", "fail", or "ok")
+#' @return A examiner_test object with an action ("pass", "fail", or "ok")
 #'
-#' @param ex a checkr_result object produced by some previous checkr function, e.g. `for_checkr()`
+#' @param ex a examiner_result object produced by some previous examiner function, e.g. `for_examiner()`
 #' @param keys an R statement used for pattern matching and binding, based
 #' on the redpen package. This can also be a {}-bracketed set of patterns. If the expression
 #' involves assignment, the keys will be matched only to the RHS of assignment, not the whole
@@ -30,13 +30,13 @@
 #' defined in `keys`, for each line the name of the object assigned to will be bound to the pronoun `Z`.  (`Z` will be `""`
 #' when there's no assignment in the line.)
 #' @param message a character string message. If the patterns don't match, the message to
-#' give with the failed checkr_result.
+#' give with the failed examiner_result.
 #' @param qkeys (for internal use only) a quoted expression containing the keys.
 #'
 #' @details Remember that the `keys` should be designed around statements *not* involving assignment.
 #' If you want to check assignment, use the `Z` pronoun.
 
-#' @return a checkr_result object.
+#' @return a examiner_result object.
 #'
 #' @details The pattern or patterns in `keys` are applied to each of the expressions in `ex`.
 #' The tests are only considered for the first expression in `ex` that matches
@@ -47,7 +47,7 @@
 #'
 #'
 #' @examples
-#' ex <- for_checkr(quote(z <- 2+2))
+#' ex <- for_examiner(quote(z <- 2+2))
 #' line_binding(ex, 2 + 2, passif(TRUE, "The pattern matched."), message = "I was looking for 2+2.")
 #' line_binding(ex, 3 + 3, message = "I was looking for 3 + 3")
 #' # The Z pronoun for assignment is added by default
@@ -58,8 +58,8 @@
 #' line_binding(ex, `+`(.(a), .(b)), passif(TRUE, "Found a match."))
 #' line_binding(ex, `+`(.(a), .(b)),
 #'   passif(a==b, message = "Yes, the arguments to + are equal. They are both {{a}}."))
-#' wrong1 <- for_checkr(quote(2 - 2))
-#' wrong2 <- for_checkr(quote(2*2))
+#' wrong1 <- for_examiner(quote(2 - 2))
+#' wrong2 <- for_examiner(quote(2*2))
 #' line_binding(wrong1, {.(expr); .(f)(.(a), .(b))},
 #'   passif(f == `+`, "Right! Addition means {{f}}."),
 #'   failif(f != `+`, "In {{expr}}, you used {{f}} instead of +."))
@@ -68,7 +68,7 @@
 #'   failif(fn != `+`, "You need to use the `+` function, not {{fn}}."),
 #'   noteif(val != 4, "The result should be 4, not {{val}}."),
 #'   passif(fn == `+` && val == 4 && a == b))
-#' code2 <- for_checkr(quote({data(mtcars); plot(mpg ~ hp, data = mtcars)}))
+#' code2 <- for_examiner(quote({data(mtcars); plot(mpg ~ hp, data = mtcars)}))
 #' line_binding(code2,
 #'   # note, single . with .(fn)
 #'   {..(val); .(fn)(.(formula), data = mtcars);},
@@ -78,7 +78,7 @@
 #' @export
 line_binding <- function(ex, keys, ..., message = "No match found to specified patterns.",
                          qkeys = NULL) {
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   if (failed(ex)) return(ex) # short circuit on failed input
 
   code <- ex$code
@@ -106,7 +106,7 @@ line_binding <- function(ex, keys, ..., message = "No match found to specified p
 
       # Grab the list of bindings
       # Handle either a simple list of quosures or the output of
-      # for_checkr()
+      # for_examiner()
       Z <- get_assignment_name(code[[m]])
       simp_ex <- simplify_ex(code[[m]])
       new_bindings <-
@@ -116,7 +116,7 @@ line_binding <- function(ex, keys, ..., message = "No match found to specified p
       # If command throws error, special fail on error
       if (inherits(new_bindings, "try-error")) {
         return(
-          new_checkr_result(
+          new_examiner_result(
             action = "fail",
             message = as.character(new_bindings) # holds error message
             )
@@ -142,8 +142,8 @@ line_binding <- function(ex, keys, ..., message = "No match found to specified p
   # If none of the expressions matched all of the patterns,
   # return now.
   if ( ! all(patterns_matched)) {
-    res <- if (message == "") new_checkr_result("ok", code = code)
-    else new_checkr_result("fail", message, code = code)
+    res <- if (message == "") new_examiner_result("ok", code = code)
+    else new_examiner_result("fail", message, code = code)
     return(res)
   }
 

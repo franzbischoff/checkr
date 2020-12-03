@@ -8,8 +8,8 @@
 #' @param message character string message on failure
 #'
 #' @examples
-#' ex <- for_checkr(quote(15 * sin(53 * pi / 180)))
-#' ex2 <- for_checkr(quote(yy <- sin(3))) # at the top level
+#' ex <- for_examiner(quote(15 * sin(53 * pi / 180)))
+#' ex2 <- for_examiner(quote(yy <- sin(3))) # at the top level
 #' line_calling(ex, sin)
 #' # look only in arguments: the top-level function doesn't count
 #' arg_calling(ex, sin)

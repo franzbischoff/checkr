@@ -1,6 +1,6 @@
 context("Line locator functions")
 
-CODE <- for_checkr(quote({x <- 2; y <- x^3; z <- y + I(x)}))
+CODE <- for_examiner(quote({x <- 2; y <- x^3; z <- y + I(x)}))
 
 test_that("line_where() identifies assignment", {
   res1 <- line_where(CODE, insist(Z == "y"))
@@ -25,7 +25,7 @@ test_that("line_where() identifies an expression", {
 })
 
 test_that("line_where() returns F and Z as character strings.", {
-  ex <- for_checkr("y <- 1:4; y[3] <- y[2]")
+  ex <- for_examiner("y <- 1:4; y[3] <- y[2]")
   res1 <- line_where(ex, insist(F == "[", "{{F}} and {{Z}}"))
   expect_true(ok(res1))
   res2 <- line_where(ex, insist(is.character(Z) && Z == "y[3]"),
@@ -34,7 +34,7 @@ test_that("line_where() returns F and Z as character strings.", {
 })
 
 test_that("line_calling() works", {
-  code <- for_checkr("x <- 1; y <- x^2; z <- (y^2 + 7) / 2")
+  code <- for_examiner("x <- 1; y <- x^2; z <- (y^2 + 7) / 2")
   r1 <- line_calling(code, `^`, message="Didn't find any line using exponentiation.")
   expect_equal(r1$code[[1]], quo(y <- x^2))
   r2 <- line_calling(code, `^`, n = 2L, message = "Didn't find a second line using exponentiation.")
@@ -99,9 +99,9 @@ test_that("line_binding() tests terminate on first definitive pass or fail", {
   expect_false(grepl("A note", res4$message))
 })
 
-test_that("line_binding() returns a checkr_result with code", {
+test_that("line_binding() returns a examiner_result with code", {
   res1 <- line_binding(CODE, `^`(...), passif(TRUE, "Assignment to {{Z}}."))
-  expect_true(inherits(res1, "checkr_result"))
+  expect_true(inherits(res1, "examiner_result"))
   expect_equal(res1$code[[1]], quo(y <- x^3))
 })
 

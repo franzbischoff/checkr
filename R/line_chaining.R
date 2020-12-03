@@ -6,26 +6,26 @@
 #' @details A chain is itself equivalent to multiple lines. If you are interested in
 #' exploring within a chain, you can expand the chain into individual lines. See `expand_chains()`.
 #'
-#' @param ex A checkr_result object such as produced by `for_checkr()`
+#' @param ex A examiner_result object such as produced by `for_examiner()`
 #' @param n An integer indicating which line that is a chain is desired: first, second, ...
 #' @param message A message to include in a failed result.
 #' @seealso expand_chains, expand_all_chains
 #'
 #' @examples
-#' code <- for_checkr(quote({x <- 3 %>% sin() %>% cos(); x %>% sqrt() %>% log()}))
+#' code <- for_examiner(quote({x <- 3 %>% sin() %>% cos(); x %>% sqrt() %>% log()}))
 #' line_chaining(code)
 #' line_chaining(code, n = 2L)
 #'
 #' @export
 line_chaining <- function(ex, n = 1L, message = "Didn't find a chained command.") {
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   if (failed(ex)) return(ex) # short circuit failure
   success_count <- 0
   for (m in seq_along(ex$code)) {
     if (is_chain(simplify_ex(ex$code[[m]]))) {
       success_count <- success_count + 1
       if (success_count == n) {
-        res <- new_checkr_result(action = "pass", message = "message",
+        res <- new_examiner_result(action = "pass", message = "message",
                                  code = list(ex$code[[m]]))
         return(res)
       }

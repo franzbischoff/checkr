@@ -13,7 +13,7 @@
 <meta name="progressive" content="false" />
 <meta name="allow-skip" content="false" />
 
-<title>Examples for checkr2</title>
+<title>Examples for examiner2</title>
 
 
 <!-- highlightjs -->
@@ -65,7 +65,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <pre class="text"><code>1 # There must be something in this chunk.</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="bunch-1-a-check" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>checkr2:::rep_1245(USER_CODE)</code></pre>
+<pre class="text"><code>examiner2:::rep_1245(USER_CODE)</code></pre>
 </div>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Create a vector named <code>Letter</code> that contains <code>&quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;a&quot; &quot;b&quot; &quot;c&quot;</code>
@@ -86,7 +86,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <pre class="text"><code>1 # chunk can&#39;t be empty</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="bunch-1-b-check" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>checkr2:::rep_abcd(USER_CODE)</code></pre>
+<pre class="text"><code>examiner2:::rep_abcd(USER_CODE)</code></pre>
 </div>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>You’ve constructed <code>Id</code> in the previous exercise. Copy the statement you used to do that into this code block. Then create two more vectors:
@@ -111,14 +111,14 @@ df &lt;- data.frame(x = x, y = y, Id = Id)</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="bunch-1-c-check" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>#USER_CODE &lt;- &quot;Id &lt;- rep(1:4, each=3); x &lt;- seq(1, 43, length = length(Id)); y &lt;- seq(-20, 0, length = length(Id)); df &lt;- data.frame(x=x, y = y, Id = Id)&quot;
-checkr2:::df_abcd_1234_x_y(USER_CODE)</code></pre>
+examiner2:::df_abcd_1234_x_y(USER_CODE)</code></pre>
 </div>
 
 <script type="application/shiny-prerendered" data-context="server-start">
 library(learnr)
-library(checkr2)
+library(examiner2)
 knitr::opts_chunk$set(echo = FALSE)
-tutorial_options(exercise.checker = checkr2::check_for_learnr)
+tutorial_options(exercise.checker = examiner2::check_for_learnr)
 # tutorial_options(exercise.checker = function(...) cat("Bogus checker\n"))
 </script>
  
@@ -162,7 +162,7 @@ output$`tutorial-exercise-bunch-1-c-output` <- renderUI({
 
 <!-- begin doc-metadata -->
 <div id="doc-metadata">
-<h2 class="title toc-ignore" style="display:none;">Examples for <code>checkr2</code></h2>
+<h2 class="title toc-ignore" style="display:none;">Examples for <code>examiner2</code></h2>
 </div>
 <!-- end doc-metadata -->
 

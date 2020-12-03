@@ -1,6 +1,6 @@
 context("Grabbing arguments ")
 
-CODE <- for_checkr(quote({x <- 2; y <- x^3; z <- y + I(x)}))
+CODE <- for_examiner(quote({x <- 2; y <- x^3; z <- y + I(x)}))
 
 test_that("arg_calling() grabs the sub-expression associated with calling a function", {
   lineA <- line_calling(CODE, `+`)
@@ -19,7 +19,7 @@ test_that("line_calling() can handle multiple lines", {
   expect_equal(r5$code[[1]], quo(z <- y + I(x)))
 })
 
-CODE2 <- for_checkr(quote({data(mtcars, package = "datasets"); lm(mpg ~ hp, data = mtcars)}))
+CODE2 <- for_examiner(quote({data(mtcars, package = "datasets"); lm(mpg ~ hp, data = mtcars)}))
 
 test_that("checks for different kinds of arguments work", {
   lineA <- line_calling(CODE2, lm)
@@ -63,7 +63,7 @@ test_that("On failure, the returned code is that of the original input.", {
 })
 
 test_that("Can locate a nested call to an argument.", {
-  code <- for_checkr("15 * sin(53 * pi/180) + 2")
+  code <- for_examiner("15 * sin(53 * pi/180) + 2")
   res1 <- arg_calling(code, sin)
   expect_equal(res1$code[[1]], quo(sin(53 * pi / 180)))
 })

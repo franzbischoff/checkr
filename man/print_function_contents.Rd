@@ -16,10 +16,10 @@ the function definition.}
 will cause that .R file to be sourced.}
 }
 \description{
-Many checkr statements will be packaged into functions with just one input: \code{USER_CODE}.
-In narrative documentation for checkr, it can be nice to print these with lines numbered, so
+Many examiner statements will be packaged into functions with just one input: \code{USER_CODE}.
+In narrative documentation for examiner, it can be nice to print these with lines numbered, so
 that the narrative can refer to them. There's no reason to use this function in a learnr tutorial,
-unless that tutorial is about checkr itself.
+unless that tutorial is about examiner itself.
 }
 \details{
 Won't work for primitives, but then you'll never be writing primitives.

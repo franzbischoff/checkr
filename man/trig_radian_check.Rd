@@ -8,7 +8,7 @@ trig_radian_check(ex, radian_val,
   message = "Could not find call to a trigonometric function", eps = 0.001)
 }
 \arguments{
-\item{ex}{A \code{checkr_result}, presumably containing a call to a trig function.}
+\item{ex}{A \code{examiner_result}, presumably containing a call to a trig function.}
 
 \item{radian_val}{a number: the desired angle in radians}
 
@@ -20,7 +20,7 @@ trig_radian_check(ex, radian_val,
 Check that argument is in radians
 }
 \examples{
-ex <- for_checkr(quote(15 * sin(3)))
+ex <- for_examiner(quote(15 * sin(3)))
 trig_radian_check(ex, 3)
 trig_radian_check(ex, 3 * pi / 180)
 trig_radian_check(ex, 4*pi/180)

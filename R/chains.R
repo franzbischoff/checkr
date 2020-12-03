@@ -7,14 +7,14 @@
 #' calls: `h(g(f(a)))`. It's also equivalent to a
 #' sequence of statements: `. <- f(a); . <- g(.); h(.)` Expanding a chain means to rewrite it
 #' into this last form. Note that `.` is an object name. It's value changes at each statement (except the last, which
-#' is the result returned by the chain). By expanding a chain, you can use `checkr` statements to look at individual
+#' is the result returned by the chain). By expanding a chain, you can use `examiner` statements to look at individual
 #' function calls in the chain.
 #'
 #' `expand_chain()` expands one chain. `expand_all_chains()` takes a sequence of lines, some of
 #' which may be chains, into an equivalent sequence of lines, none of which are chains.
 #'
 #'
-#' @return A `checkr_result` object with one line for each of the functions in the chain.
+#' @return A `examiner_result` object with one line for each of the functions in the chain.
 #'
 #' @details A magrittr chain consists of a sequence of function calls. Each function takes as input
 #' the output of the function before it. (The first element of the chain may be an object
@@ -22,17 +22,17 @@
 #' (except the first) will be a function with at least one of the inputs being denoted `.`. The value
 #' of `.` for each line will be the object that is an input to that line.
 #'
-#' @param ex A `checkr_result` object with just one line of code.
+#' @param ex A `examiner_result` object with just one line of code.
 #'
 #' @examples
-#' code <- for_checkr(quote({x <- 3 %>% sin( ) %>% cos(); x %>% sqrt() %>% log()}))
+#' code <- for_examiner(quote({x <- 3 %>% sin( ) %>% cos(); x %>% sqrt() %>% log()}))
 #' lineA <- line_chaining(code)
 #' expand_chain(lineA)
 #' expand_all_chains(code)
 #' @rdname chains
 #' @export
 expand_chain <- function(ex) {
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   tmp <- simplify_ex(ex$code[[1]])
   if ( ! is_chain(tmp)) return(ex) # already expanded
   if (failed(ex)) return(ex) # short circuit on failure
@@ -68,11 +68,11 @@ expand_chain <- function(ex) {
 #' @rdname chains
 #' @export
 expand_all_chains <- function(ex) {
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   if (failed(ex)) return(ex) # short circuit on failure
   newcode <- list()
   for (m in seq_along(ex$code)) {
-    expanded <- expand_chain(new_checkr_result(action = "ok", code = ex$code[m]))
+    expanded <- expand_chain(new_examiner_result(action = "ok", code = ex$code[m]))
     newcode <- c(newcode, expanded$code)
   }
   ex$code <- newcode

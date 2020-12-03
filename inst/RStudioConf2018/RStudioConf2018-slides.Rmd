@@ -11,15 +11,15 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE}
 library(learnr)
-library(checkr)
+library(examiner)
 knitr::opts_chunk$set(echo = FALSE)
-tutorial_options(exercise.checker = checkr::check_for_learnr)
+tutorial_options(exercise.checker = examiner::check_for_learnr)
 
 cruel_remarks <- c("Really?", "Think about it!", "Maybe you shouldn't major in this field.",
 "Perhaps you should review the textbook.", "Look carefully at what you did.", "No!",
 "{{V}} is not right.")
 trig_2_check <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   t1 <- if_empty_submission(code, message = "OK. Let's get you started. Pick a trig function such as sin(), cos(), tan(), giving the angle as an argument. Perhaps something like tan(40). This won't be right, but it will get you on track. ")
   t1 <- line_calling(t1, sin, cos, tan, message = "You should be using a trigonometric function.")
   t1 <- line_calling(t1, sin, message = "Make sure to pick the right trig function. cos() does horizontal lengths, sin() does vertical lengths.")
@@ -38,7 +38,7 @@ trig_2_check <- function(USER_CODE) {
 }
 
 cruel_trig <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   line_where(code, 
              insist(abs(V - 11.97) < 0.01,  sample(cruel_remarks, 1)),
              passif(TRUE, "See, it wasn't so hard!"))
@@ -47,7 +47,7 @@ cruel_trig <- function(USER_CODE) {
 cruel_trig("11.98")
 
 source(system.file("learnr_examples/internal-examples.R", 
-                          package = "checkr"))
+                          package = "examiner"))
 ```
 
 ## Scaffolding, hints, and solutions 
@@ -101,12 +101,12 @@ You can produce a "Submit" button by adding a `-check` chunk.
     ```
 
     ```{r trig-prob-check}
-    for_checkr(USER_CODE)
+    for_examiner(USER_CODE)
     ```
 
 
 ```{r trig-1b-check}
-for_checkr(USER_CODE)
+for_examiner(USER_CODE)
 ```
 
 The positive message for running code is nice, but too generous!
@@ -138,21 +138,21 @@ trig_2_check(USER_CODE)
 
 ### The man behind the curtain
 
-Ordinarily, you would not show students the `checkr` statements implementing this behavior. But our purpose here is to introduce `checkr`, So here are the statements for the above exercise.
+Ordinarily, you would not show students the `examiner` statements implementing this behavior. But our purpose here is to introduce `examiner`, So here are the statements for the above exercise.
 
 ```{r echo = FALSE, comment = "", tidy = FALSE}
 print_function_contents(
   trig_2_check)
-#  from_file = system.file("learnr_examples/internal-examples.R", package = "checkr"))
+#  from_file = system.file("learnr_examples/internal-examples.R", package = "examiner"))
 ```
 
 Breaking this down, line by line:
 
-- [1] accepts the user submission from `learnr`. The submission is always called `USER_CODE`. The function `for_checkr()` does some pre-processing of the user submission to turn it into evaluated code and format it for use in later `checkr` functions.
+- [1] accepts the user submission from `learnr`. The submission is always called `USER_CODE`. The function `for_examiner()` does some pre-processing of the user submission to turn it into evaluated code and format it for use in later `examiner` functions.
 - [2] handles the case of an empty submission. Using this allows you to replace a scaffold with a starting suggestion. The nice thing is that the suggestion can be wrong, so student attention is focussed on a specific part of the problem.
 - [3] looks for a line containing one of the trig functions. Not necessarily the right one. The student has to think about which one to use.
 - [5] & [6] tell the student to keep working until she hits on the right trig function.
-- [7] To reach here, the student must have used `sin()`. So we'll focus on the angle. You can write specialized `checkr` functions to handle specialized areas. Degrees vs radians will not be an issue in most tutorials.
+- [7] To reach here, the student must have used `sin()`. So we'll focus on the angle. You can write specialized `examiner` functions to handle specialized areas. Degrees vs radians will not be an issue in most tutorials.
 - [10] makes sure that the multiply function is being used.
 
 Depending on the submission, any of the checksmight fail. If a check fails, later checks that use the previous result will short circuit to a failed check. This allows checks to be chained, with the earliest failure determining the outcome. 
@@ -161,7 +161,7 @@ Depending on the submission, any of the checksmight fail. If a check fails, late
 
 ### Example: the cruel instructor
 
-An instructor with a different pedagogical approach might prefer to structure the checking in an entirely different way. For instance, here are `checkr` statements that simply tell the user whether or not the submission did what was requested.
+An instructor with a different pedagogical approach might prefer to structure the checking in an entirely different way. For instance, here are `examiner` statements that simply tell the user whether or not the submission did what was requested.
 
 ```{r cruel, exercise = TRUE}
 # Get started
@@ -212,11 +212,11 @@ No!
 But to give hints without context seems strange, yet this is what 
 the `learnr` `-hint` system does.
 
-## rlang, redpen, and checkr
+## rlang, redpen, and examiner
 
 ### The foundation
 
-`checkr` is based on the `rlang` and `redpen` packages. Two basic technologies:
+`examiner` is based on the `rlang` and `redpen` packages. Two basic technologies:
 
 1. Associating an environment with every code excerpt, so that it can be evaluated in isolation.
 2. Pattern binding that lets you associate any function call or argument with a name. Per (1), the name can then be checked or evaluated.
@@ -231,7 +231,7 @@ redpen::node_match(submission,
                    15 * sin(..(ang)) ~ ang)
 ```
 
-### `checkr` adds ...
+### `examiner` adds ...
 
 * Dealing with multiple lines of code.
 * A framework for dealing with assignment, 
@@ -305,7 +305,7 @@ The checking code:
 print_function_contents(
   check_exer_14,
   from_file = system.file("learnr_examples/internal-examples.R", 
-                          package = "checkr"), 
+                          package = "examiner"), 
   just_the_body = FALSE)
 ```
 
@@ -363,7 +363,7 @@ Providing student feedback is largely an empirical problem, not a logical one. W
 
 ## Present status
 
-* Available via `install_github("dtkaplan/checkr")`
+* Available via `install_github("dtkaplan/examiner")`
 * Vignette with many examples.
 * This document at <https://dtkaplan.shinyapps.io/RStudioConf2018-slides>
 
@@ -371,4 +371,4 @@ Among other things:
 
 - needs better parse-time diagnostics (e.g. <https://github.com/stephdesilva/helpPlease>, <https://github.com/noamross/zero-dependency-problems>)
 - better spell-check (e.g. <https://github.com/wrathematics/Rdym>)
-- experience programming with `checkr` may lead to better high-level functions for simplifying checking, like `check_blanks`. We need to dig the *Pit of Success* 
+- experience programming with `examiner` may lead to better high-level functions for simplifying checking, like `check_blanks`. We need to dig the *Pit of Success* 

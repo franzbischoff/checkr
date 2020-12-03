@@ -1,23 +1,23 @@
 #' Apply passif/failif/okif tests to an identified code object
 #'
 #' A generic testing function for applying passif/failif tests with V and EX bindings
-#' to a checkr_result object. Unlike `line_where()`, other line functions, no patterns
+#' to a examiner_result object. Unlike `line_where()`, other line functions, no patterns
 #' need to be provided. Just the passif/failif tests.
 #'
-#' @param ex the checkr_result object with a single line of code
+#' @param ex the examiner_result object with a single line of code
 #' @param ... passif/failif tests to be applied
 #' @param message a character string to be used as the message for a failed result
 #'
-#' @return a checkr_result object reflecting the outcome of the tests
+#' @return a examiner_result object reflecting the outcome of the tests
 #'
 #' @examples
-#' code <- for_checkr(quote({x <- 3; y <- x^2 + 2}))
+#' code <- for_examiner(quote({x <- 3; y <- x^2 + 2}))
 #' line2 <- line_where(code, insist(Z == "y"))
 #' check(line2, passif(V == 11, "Right, eleven!"),
 #'       message = "Sorry. The result should be 11.")
 #' @export
 check <- function(ex, ..., message = "Sorry!") {
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   if (failed(ex)) return(ex) # short circuit.
   if(length(ex$code) != 1) stop("check() is for handling just a single line of code.") # Author error
 

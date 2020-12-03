@@ -16,8 +16,8 @@
 #'
 #' @details In `pat`, you can use `.` (for a name or call) and `...` (for remaining arguments) to stand for components of the pattern you don't care about.
 #' @examples
-#' submission <- for_checkr(quote({a <- 3; b <- 4; res <- sqrt(a^2 + b^2)}))
-#' submission2 <- for_checkr(quote({a <- 3; b <- 4; res <- sin(a^2 + b^2)}))
+#' submission <- for_examiner(quote({a <- 3; b <- 4; res <- sqrt(a^2 + b^2)}))
+#' submission2 <- for_examiner(quote({a <- 3; b <- 4; res <- sin(a^2 + b^2)}))
 #' # a template with a blank ..fn..
 #' as_posted <- quote(res <- ..fn..(a^2 + b^2))
 #' check_blanks(submission, as_posted,
@@ -32,10 +32,10 @@
 #'    insist(bval == 5, "`b` is not supposed to be {{bval}}."))
 #'
 #' # Multiple blanks
-#' as_posted <- for_checkr(quote({res <- ..fn..(`+`(`^`(a, ..exp1..), `^`(b, ..exp2..)))}))
+#' as_posted <- for_examiner(quote({res <- ..fn..(`+`(`^`(a, ..exp1..), `^`(b, ..exp2..)))}))
 #' @export
 check_blanks <- function(ex, pat, ...) {
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   if (!is.call(pat)) {
     stopifnot(is.list(pat))
     stopifnot(is.call(pat[[1]]))
@@ -69,7 +69,7 @@ check_blanks <- function(ex, pat, ...) {
 
   if (is.null(bindings)) {
     # there was no match to the pattern
-    return(new_checkr_result(action = "fail", message = "You changed something other than the blanks. Start over from the beginning."))
+    return(new_examiner_result(action = "fail", message = "You changed something other than the blanks. Start over from the beginning."))
   }
   run_tests(tests, bindings, ex)
 }

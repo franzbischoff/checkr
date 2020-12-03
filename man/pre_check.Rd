@@ -8,13 +8,13 @@ pre_check(user_code, soln_code = "hello")
 }
 \arguments{
 \item{user_code}{A character string containing the code to be checked. Note that
-this is a character string, not a checkr_result. Constructing a checkr_result requires
+this is a character string, not a examiner_result. Constructing a examiner_result requires
 that the code be evaluated, while this function is for pre-evaluation checking.}
 
 \item{soln_code}{Code, if any, containing a correct solution.}
 }
 \value{
-A \code{checkr_result} object.
+A \code{examiner_result} object.
 }
 \description{
 Checks first whether the code parses. If so, funs the code looking for errors.

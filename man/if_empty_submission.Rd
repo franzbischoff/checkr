@@ -7,7 +7,7 @@
 if_empty_submission(ex, message = "Give me something to start with!")
 }
 \arguments{
-\item{ex}{A checkr_result object, typically straight from \code{for_checkr}}
+\item{ex}{A examiner_result object, typically straight from \code{for_examiner}}
 
 \item{message}{The message to give if \code{ex} has no code associated with it.}
 }
@@ -17,6 +17,6 @@ provides a way to through a graceful error, perhaps with a message telling
 the student how to start.
 }
 \examples{
-code <- for_checkr("")
+code <- for_examiner("")
 t1 <- if_empty_submission(code, message = "Start out with something. Say 2+2.")
 }

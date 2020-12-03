@@ -9,7 +9,7 @@
 #'
 #' @aliases line_where lines_after
 #'
-#' @param ex a `"checkr_test"` object for instance as made by for_checkr()
+#' @param ex a `"examiner_test"` object for instance as made by for_examiner()
 #' @param ... passif/failif/insist tests specifying the kind of line we want. The messages associated with
 #' each test can have moustaches written in terms of F, Z, V, or E.
 #' @param message A character string message to give if no acceptable line is found.
@@ -23,7 +23,7 @@
 #' applies, `line_where()` progresses to the next of the tests in `...`. If none of the tests produce a definitive
 #' result, `line_where()` will return an OK result.
 #'
-#' The `ex` argument is a `"checkr_test"` object. If that input object is a fail, `line_where()` immediately returns
+#' The `ex` argument is a `"examiner_test"` object. If that input object is a fail, `line_where()` immediately returns
 #' that input: none of the tests are performed. This allows test results to be cascaded.
 #'
 #' Some important details about what types of objects F, Z, V, and E will be. V and E are straightforward: V will
@@ -32,15 +32,15 @@
 #'
 #'
 #'
-#' @return A `"checkr_test"` result which is either a pass, fail, or OK.
+#' @return A `"examiner_test"` result which is either a pass, fail, or OK.
 #'
 #' @examples
-#' ex <- for_checkr(quote({x <- 2; y <- x^3; z <- y + x}))
+#' ex <- for_examiner(quote({x <- 2; y <- x^3; z <- y + x}))
 #' line_where(ex, insist(F == "^"), message = "Didn't find exponentiation")
 #'
 #' @export
 line_where <- function(ex, ..., message = "No such line found.") {
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   if (failed(ex)) return(ex) # short circuit on failure
   tests <- rlang::quos(...)
   res <- matching_line(ex, tests, message = message)
@@ -51,10 +51,10 @@ line_where <- function(ex, ..., message = "No such line found.") {
 
 # internal function to run the tests to find a matching line
 matching_line <- function(ex, tests, message = "", type = NULL, type_text="") {
-  stopifnot(inherits(ex, "checkr_result"))
+  stopifnot(inherits(ex, "examiner_result"))
   if (failed(ex)) return(ex) # short circuit on failure
   type_failure <- "" # a flag
-  res <- new_checkr_result(action = "fail", message = "No content to submission.")
+  res <- new_examiner_result(action = "fail", message = "No content to submission.")
   for (k in seq_along(ex$code)) {
     # Create the bindings
     V <- if ("values" %in% names(ex)) {

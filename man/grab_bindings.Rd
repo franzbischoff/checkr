@@ -27,7 +27,7 @@ expression in ex.}
 \item{key}{for \code{grab_bindings_anywhere()}, a single pattern as a quoted expression}
 }
 \description{
-UNLIKE the \code{check_} functions which return \code{checkr_result} objects,
+UNLIKE the \code{check_} functions which return \code{examiner_result} objects,
 \code{grab_bindings} returns a list with the values matched to the keys.
 }
 \details{
@@ -36,14 +36,14 @@ from separate arguments to \code{grab_bindings()}, each pattern must be quoted, 
 Note that the patterns should include assignment if there is to be any.
 }
 \examples{
-ex <- for_checkr(quote(plot(mpg ~ wt, data = subset(mtcars, hp < 150))))
+ex <- for_examiner(quote(plot(mpg ~ wt, data = subset(mtcars, hp < 150))))
 grab_bindings(ex, quote(.(fn)(.(formula), data = .(the_data))))
-ex2 <- for_checkr(quote({x <- 1; y <- x^2}))
+ex2 <- for_examiner(quote({x <- 1; y <- x^2}))
 grab_bindings(ex2, quote(`<-`(x, ..(first))),
      quote(`<-`(.(var), .(fn)(x, .(exponent)))), all_for_one = FALSE)
 grab_bindings(ex2, quote(`<-`(x, ..(first))),
       quote(`<-`(.(var), .(fn)(x, .(exponent)))))
-grab_binding_anywhere(for_checkr(quote({4 - 7;sin(3 + 2)})), quote(`+`(.(a), .(b))))
-grab_binding_anywhere(for_checkr(quote({4 - 7;sin(3 + 2)})), quote(.(fn)(3 + 2)))
-grab_binding_anywhere(for_checkr(quote({4 - 7;sin(3 + 2)})), quote(`-`(.(a), .(b))))
+grab_binding_anywhere(for_examiner(quote({4 - 7;sin(3 + 2)})), quote(`+`(.(a), .(b))))
+grab_binding_anywhere(for_examiner(quote({4 - 7;sin(3 + 2)})), quote(.(fn)(3 + 2)))
+grab_binding_anywhere(for_examiner(quote({4 - 7;sin(3 + 2)})), quote(`-`(.(a), .(b))))
 }

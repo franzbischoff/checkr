@@ -1,14 +1,14 @@
-#' Combine or negate checkr_results
+#' Combine or negate examiner_results
 #'
-#' The outcome of a checkr test is an object of class `checkr_result` that indicates
+#' The outcome of a examiner test is an object of class `examiner_result` that indicates
 #' whether the test was passed or failed or was sufficient to move on to additional tests.
 #'
-#' @param res1 the first checkr result
-#' @param res2 the second checkr result
+#' @param res1 the first examiner result
+#' @param res2 the second examiner result
 #'
 #' @examples
 #' # normally these results are made by the checking functions
-#' code <- for_checkr(quote(1))
+#' code <- for_examiner(quote(1))
 #' pa <- check(code, passif(V==1, "Good!"))
 #' pb <- check(code, passif(V==1, "Great!"))
 #' fa <- check(code, failif(V==1, "too bad"))
@@ -27,8 +27,8 @@
 #' pa %and% fa
 #' pa %or% oka
 #' pa %and% oka
-#' checkr::not(pa)
-#' checkr::not(fa)
+#' examiner::not(pa)
+#' examiner::not(fa)
 #'
 #' @rdname logicals
 #' @export
@@ -42,9 +42,9 @@
 }
 #' @rdname logicals
 #' @export
-`%or%.checkr_result` <- function(res1, res2) {
-  stopifnot(inherits(res2, "checkr_result"))
-  # Make sure they are both checkr_result and then combine in some sensible way
+`%or%.examiner_result` <- function(res1, res2) {
+  stopifnot(inherits(res2, "examiner_result"))
+  # Make sure they are both examiner_result and then combine in some sensible way
   # 1) ok   || pass -> pass
   # 2) ok   || fail -> pass
   # 3) ok   || ok   -> pass
@@ -55,13 +55,13 @@
   # combine the notes
   mess <- combine_messages(res1, res2)
 
-  if (failed(res1) && failed(res2)) new_checkr_result("fail", message = mess$fail_message)
-  else new_checkr_result("pass", message = mess$pass_message)
+  if (failed(res1) && failed(res2)) new_examiner_result("fail", message = mess$fail_message)
+  else new_examiner_result("pass", message = mess$pass_message)
 }
 #' @rdname logicals
 #' @export
-`%and%.checkr_result` <- function(res1, res2) {
-  stopifnot(inherits(res2, "checkr_result"))
+`%and%.examiner_result` <- function(res1, res2) {
+  stopifnot(inherits(res2, "examiner_result"))
   # 1) pass && pass -> pass
   # 2) any fail   -> fail
   # 3) ok && ok   -> ok
@@ -71,13 +71,13 @@
   mess <- combine_messages(res1, res2)
 
   if (failed(res1) || failed(res2)) {
-    new_checkr_result("fail", mess$fail_message)
+    new_examiner_result("fail", mess$fail_message)
   } else if (passed(res1) || passed(res2)) {
-    new_checkr_result("pass", mess$pass_message)
+    new_examiner_result("pass", mess$pass_message)
   } else if ((!failed(res1)) && (!failed(res2))) {
-    new_checkr_result("ok", mess$ok_note)
+    new_examiner_result("ok", mess$ok_note)
   } else {
-    stop("Illegal combination of checkr_results. ")
+    stop("Illegal combination of examiner_results. ")
   }
 
 }
@@ -85,7 +85,7 @@
 #' @rdname logicals
 #' @export
 not <- function(res1) {
-  stopifnot(inherits(res1, "checkr_result"))
+  stopifnot(inherits(res1, "examiner_result"))
   if (res1$action %in% c("pass", "ok")) res1$action = "fail"
   else res1$action = "pass"
 
@@ -93,10 +93,10 @@ not <- function(res1) {
 }
 
 
-# combine messages from checkr_results
+# combine messages from examiner_results
 combine_messages <- function(res1, res2) {
-  if (!(inherits(res1, "checkr_result") && inherits(res2, "checkr_result")))
-    stop("arguments must both be checkr_result class")
+  if (!(inherits(res1, "examiner_result") && inherits(res2, "examiner_result")))
+    stop("arguments must both be examiner_result class")
 
   if (is.null(res1)) res2
   if (is.null(res2)) res1

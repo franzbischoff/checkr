@@ -7,9 +7,9 @@
 misconception(ex, pattern, message)
 }
 \arguments{
-\item{ex}{A checkr result to use as input}
+\item{ex}{A examiner result to use as input}
 
-\item{pattern}{A code pattern as found by any of the functions returning a checkr_result object.}
+\item{pattern}{A code pattern as found by any of the functions returning a examiner_result object.}
 
 \item{message}{The message to give if the \code{pattern} is found.}
 }
@@ -19,7 +19,7 @@ Sometimes you expect a specific code pattern which might reflect a common miscon
 is found.
 }
 \examples{
-code <- for_checkr(quote({theta <- 53; x <- sin(theta)}))
+code <- for_examiner(quote({theta <- 53; x <- sin(theta)}))
 misconception(code,
   line_where(code,
              passif(V == 53)),

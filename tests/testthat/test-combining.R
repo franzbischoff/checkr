@@ -1,6 +1,6 @@
 context("combining")
 
-CODE <- for_checkr(quote({x <- 2; y <- x^2; z <- x + y}))
+CODE <- for_examiner(quote({x <- 2; y <- x^2; z <- x + y}))
 
 test_that("Can combine results from tests.", {
   line1 <- line_where(CODE,

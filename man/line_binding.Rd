@@ -13,7 +13,7 @@ check_binding(ex, keys, ...,
   message = "No match found to specified patterns.", qkeys = NULL)
 }
 \arguments{
-\item{ex}{a checkr_result object produced by some previous checkr function, e.g. \code{for_checkr()}}
+\item{ex}{a examiner_result object produced by some previous examiner function, e.g. \code{for_examiner()}}
 
 \item{keys}{an R statement used for pattern matching and binding, based
 on the redpen package. This can also be a {}-bracketed set of patterns. If the expression
@@ -26,14 +26,14 @@ defined in \code{keys}, for each line the name of the object assigned to will be
 when there's no assignment in the line.)}
 
 \item{message}{a character string message. If the patterns don't match, the message to
-give with the failed checkr_result.}
+give with the failed examiner_result.}
 
 \item{qkeys}{(for internal use only) a quoted expression containing the keys.}
 }
 \value{
-A checkr_test object with an action ("pass", "fail", or "ok")
+A examiner_test object with an action ("pass", "fail", or "ok")
 
-a checkr_result object.
+a examiner_result object.
 }
 \description{
 Looks for a line matching \emph{all} of the redpen patterns. If the match is found, the
@@ -44,7 +44,7 @@ If no pass or fail occurs, a neutral result ("ok")
 is created so that evaluation can proceed to subsequent statements.
 }
 \details{
-If any of the redpen patterns fails to match, a checkr_result "fail" is returned with
+If any of the redpen patterns fails to match, a examiner_result "fail" is returned with
 the message specified in the \code{message} argument, and with code being the same as the input code.
 
 In additon to the passif/failif/noteif tests, you can use \code{line_} functions as a test.
@@ -64,7 +64,7 @@ terminating the testing. The redpen patterns are compared just to the RHS of any
 The Z pronoun will store the name of any assignment (and will be \code{""} if there's no assignment.)
 }
 \examples{
-ex <- for_checkr(quote(z <- 2+2))
+ex <- for_examiner(quote(z <- 2+2))
 line_binding(ex, 2 + 2, passif(TRUE, "The pattern matched."), message = "I was looking for 2+2.")
 line_binding(ex, 3 + 3, message = "I was looking for 3 + 3")
 # The Z pronoun for assignment is added by default
@@ -75,8 +75,8 @@ line_binding(ex, 2 + ..(y),
 line_binding(ex, `+`(.(a), .(b)), passif(TRUE, "Found a match."))
 line_binding(ex, `+`(.(a), .(b)),
   passif(a==b, message = "Yes, the arguments to + are equal. They are both {{a}}."))
-wrong1 <- for_checkr(quote(2 - 2))
-wrong2 <- for_checkr(quote(2*2))
+wrong1 <- for_examiner(quote(2 - 2))
+wrong2 <- for_examiner(quote(2*2))
 line_binding(wrong1, {.(expr); .(f)(.(a), .(b))},
   passif(f == `+`, "Right! Addition means {{f}}."),
   failif(f != `+`, "In {{expr}}, you used {{f}} instead of +."))
@@ -85,7 +85,7 @@ line_binding(wrong2, {.(fn)(.(a), .(b)); ..(val)},
   failif(fn != `+`, "You need to use the `+` function, not {{fn}}."),
   noteif(val != 4, "The result should be 4, not {{val}}."),
   passif(fn == `+` && val == 4 && a == b))
-code2 <- for_checkr(quote({data(mtcars); plot(mpg ~ hp, data = mtcars)}))
+code2 <- for_examiner(quote({data(mtcars); plot(mpg ~ hp, data = mtcars)}))
 line_binding(code2,
   # note, single . with .(fn)
   {..(val); .(fn)(.(formula), data = mtcars);},

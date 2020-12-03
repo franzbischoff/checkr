@@ -1,12 +1,12 @@
-context("check function applies tests to 1-code-line checkr_result")
+context("check function applies tests to 1-code-line examiner_result")
 
-CODE <- for_checkr(quote({data(mtcars, package = "datasets"); mod <- lm(mpg ~ hp, data = mtcars)}))
+CODE <- for_examiner(quote({data(mtcars, package = "datasets"); mod <- lm(mpg ~ hp, data = mtcars)}))
 
 test_that("error if more than 1 code line is passed.", {
   expect_error(check(CODE, failif(TRUE)))
 })
 
-test_that("check() short circuits when a failed checkr_result is passed.", {
+test_that("check() short circuits when a failed examiner_result is passed.", {
   lineA <- line_calling(CODE, `lm`)
   r1 <- check(lineA, failif(TRUE))
   expect_false(passed(check(r1, passif(TRUE))))

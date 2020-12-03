@@ -3,7 +3,7 @@
 # None of them are exported, so they need to be referred to with :::
 
 rep_1234 <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   res <- line_where(code,
                     insist(Z != "", "Remember to store the result under the name `Id`."),
                     insist(Z == "Id", "Use `Id` for the assignment, not {{Z}}."),
@@ -31,7 +31,7 @@ rep_1234 <- function(USER_CODE) {
 }
 
 rep_abcd <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   res <- line_where(code, insist(Z != "", "Remember to store the result under the name `Letter`."))
   res <- line_where(res, insist(Z == "Letter", "Use `Letter` for the assignment, not {{Z}}."))
 
@@ -77,7 +77,7 @@ check_assigns <- function(ex, names = NULL, vals = NULL) {
 
 df_abcd_1234_x_y <- function(USER_CODE) {
   browser()
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   Id <- rep(1:4, each = 3)
   x <- seq(1, 43, along.with=Id)
   y <- seq(-20,0, along.with=Id)
@@ -87,7 +87,7 @@ df_abcd_1234_x_y <- function(USER_CODE) {
 }
 
 check_exer_14 <- function(submission) {
-  code <- for_checkr(submission)
+  code <- for_examiner(submission)
   if (failed(code)) return(code)
   check_blanks(code,
                quote(ggplot(mtcars, aes(x = ..x.., y = ..y.., color = ..c..)) + ..geom..()),
@@ -99,7 +99,7 @@ check_exer_14 <- function(submission) {
 }
 
 check_pythag <- function(submission) {
-  code <- for_checkr(submission)
+  code <- for_examiner(submission)
   if (failed(code)) return(code)
   check_blanks(code,
                quote(C <- ..fun..(A^2 + B^2)),

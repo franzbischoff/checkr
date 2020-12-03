@@ -8,34 +8,34 @@ line_calling(ex, ..., n = 1L, message = "Didn't find matching function.",
   just_the_fun = FALSE)
 }
 \arguments{
-\item{ex}{a checkr_result from a previous application of a checkr function, e.g. \code{for_checkr()}}
+\item{ex}{a examiner_result from a previous application of a examiner function, e.g. \code{for_examiner()}}
 
 \item{...}{unquoted functions to search for. A match to any one will trigger success.}
 
 \item{n}{an integer specifying which successful line to return. (Default: 1, the first.)}
 
-\item{message}{a character string to include in the checkr_result if the search is a failure.}
+\item{message}{a character string to include in the examiner_result if the search is a failure.}
 
 \item{just_the_fun}{If TRUE, don't return the whole line, just the call involving the function}
 }
 \value{
-A checkr_result with a pass, fail, or ok result. If a pass, the code component of the
+A examiner_result with a pass, fail, or ok result. If a pass, the code component of the
 returned value will have the line found by the search. Otherwise it will contain the input code
 unaltered.
 }
 \description{
-Searches throughly through each line in a checkr_result to find a
+Searches throughly through each line in a examiner_result to find a
 call to any of the functions listed in the dots. ...
 }
 \details{
 The functions in \code{...} should be unquoted, e.g. \code{sin} or \code{lm} rather than "sin".
 Note that infix functions, e.g. \code{+}, \code{-}, \code{||}, \emph{must} be in backquotes: \code{`+`}.
 
-Like all checkr functions, if the input \code{ex} is marked as a fail the output will be a short
+Like all examiner functions, if the input \code{ex} is marked as a fail the output will be a short
 circuit, that is, immediately returning the input unchanged.
 }
 \examples{
-code <- for_checkr("x <- 1; y <- x^2; z <- (y^2 + 7) / 2")
+code <- for_examiner("x <- 1; y <- x^2; z <- (y^2 + 7) / 2")
 line_calling(code, `^`, message="Didn't find any line using exponentiation.")
 line_calling(code, `^`, message="Didn't find any line using exponentiation.",
     just_the_fun = TRUE)

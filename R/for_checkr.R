@@ -1,6 +1,6 @@
 #' Translate a sequence of commands into a sequence of quosures
 #'
-#' This function is the first step in any checkr sequence. It scans the
+#' This function is the first step in any examiner sequence. It scans the
 #' quoted commands for parse errors, evaluates the lines one at a time, and
 #' packages up the lines into quosures with an environment in which the line
 #' should be executed. (That way the lines can be evaluated in a stand-alone
@@ -12,14 +12,14 @@
 #' environment that reflects the state when that expression was evaluated.
 #'
 #' @examples
-#' code <- for_checkr(quote({x <- 2; y <- x^2; z <- x + y}))
+#' code <- for_examiner(quote({x <- 2; y <- x^2; z <- x + y}))
 #' class(code)
 #' passed(code)
 #' line_where(code, insist(Z == "z", "No line with assignment to 'z'."))
 #' line_where(code, insist(V == 4), insist(Z == "y"))
 
 #' @export
-for_checkr <- function(exprs) {
+for_examiner <- function(exprs) {
   if (is.character(exprs)) { # turn text into parsed code
     exprs <- parse(text = exprs)
   }
@@ -33,7 +33,7 @@ for_checkr <- function(exprs) {
       next_env <- new.env(parent = prev_env)
       so_far <- try(eval_bare(exprs[[m]], env = next_env), silent = TRUE)
       if (inherits(so_far, "try-error")) {
-        return(checkr_result_on_error(so_far, exprs[[m]]))
+        return(examiner_result_on_error(so_far, exprs[[m]]))
       } else {
         values[[m - 1]] <- if(!is.null(so_far)) so_far else NA
         # The if deals with the possibility that the value is NULL.
@@ -44,18 +44,18 @@ for_checkr <- function(exprs) {
       prev_env <- next_env
     }
   }
-  # return a checkr result augmented with the enquosured code and values
-  res <- new_checkr_result()
+  # return a examiner result augmented with the enquosured code and values
+  res <- new_examiner_result()
   res$code <- code
   res$values <- values
 
   res
 }
 
-checkr_result_on_error <- function(v, ex) {
+examiner_result_on_error <- function(v, ex) {
   message <- attr(v, "condition")
   message <- gsub("^.*\\): ", "", message )
-  new_checkr_result(action = "fail",
+  new_examiner_result(action = "fail",
                     message = paste(expr_text(ex),
                                     "is an invalid command because", message))
 }

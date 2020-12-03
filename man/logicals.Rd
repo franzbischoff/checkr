@@ -3,33 +3,33 @@
 \name{\%or\%}
 \alias{\%or\%}
 \alias{\%and\%}
-\alias{\%or\%.checkr_result}
-\alias{\%and\%.checkr_result}
+\alias{\%or\%.examiner_result}
+\alias{\%and\%.examiner_result}
 \alias{not}
-\title{Combine or negate checkr_results}
+\title{Combine or negate examiner_results}
 \usage{
 res1 \%or\% res2
 
 res1 \%and\% res2
 
-\method{\%or\%}{checkr_result}(res1, res2)
+\method{\%or\%}{examiner_result}(res1, res2)
 
-\method{\%and\%}{checkr_result}(res1, res2)
+\method{\%and\%}{examiner_result}(res1, res2)
 
 not(res1)
 }
 \arguments{
-\item{res1}{the first checkr result}
+\item{res1}{the first examiner result}
 
-\item{res2}{the second checkr result}
+\item{res2}{the second examiner result}
 }
 \description{
-The outcome of a checkr test is an object of class \code{checkr_result} that indicates
+The outcome of a examiner test is an object of class \code{examiner_result} that indicates
 whether the test was passed or failed or was sufficient to move on to additional tests.
 }
 \examples{
 # normally these results are made by the checking functions
-code <- for_checkr(quote(1))
+code <- for_examiner(quote(1))
 pa <- check(code, passif(V==1, "Good!"))
 pb <- check(code, passif(V==1, "Great!"))
 fa <- check(code, failif(V==1, "too bad"))
@@ -48,7 +48,7 @@ pa \%or\% fa
 pa \%and\% fa
 pa \%or\% oka
 pa \%and\% oka
-checkr::not(pa)
-checkr::not(fa)
+examiner::not(pa)
+examiner::not(fa)
 
 }

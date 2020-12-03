@@ -13,7 +13,7 @@
 <meta name="progressive" content="false" />
 <meta name="allow-skip" content="false" />
 
-<title>Fill in the blanks in checkr</title>
+<title>Fill in the blanks in examiner</title>
 
 
 <!-- highlightjs -->
@@ -86,11 +86,11 @@ C &lt;- ........(A^2 + B^2)</code></pre>
 
 <script type="application/shiny-prerendered" data-context="server-start">
 library(learnr)
-library(checkr)
+library(examiner)
 knitr::opts_chunk$set(echo = FALSE)
-tutorial_options(exercise.checker = checkr::check_for_learnr)
+tutorial_options(exercise.checker = examiner::check_for_learnr)
 source(system.file("learnr_examples/internal-examples.R", 
-                          package = "checkr"))
+                          package = "examiner"))
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
@@ -126,7 +126,7 @@ output$`tutorial-exercise-pythag-output` <- renderUI({
 
 <!-- begin doc-metadata -->
 <div id="doc-metadata">
-<h2 class="title toc-ignore" style="display:none;">Fill in the blanks in <code>checkr</code></h2>
+<h2 class="title toc-ignore" style="display:none;">Fill in the blanks in <code>examiner</code></h2>
 </div>
 <!-- end doc-metadata -->
 

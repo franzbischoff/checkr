@@ -8,7 +8,7 @@ parse_check(user_code)
 }
 \arguments{
 \item{user_code}{a character string containing the code to parse. Note, the input
-cannot be a checkr_result, since constructing one of those requires the code to be
+cannot be a examiner_result, since constructing one of those requires the code to be
 executed.}
 }
 \description{

@@ -6,7 +6,7 @@
 #'
 run_tests <- function(test_list, bindings, ex) {
   # run the tests with these bindings
-  res <- new_checkr_result()
+  res <- new_examiner_result()
   notes <- NULL
   # These additions to bindings overwrite == and !=
   bindings[["=="]] <- function(x,y) x %same_as% y
@@ -14,8 +14,8 @@ run_tests <- function(test_list, bindings, ex) {
   for (k in seq_along(test_list)) {
     test <- rlang::eval_tidy(test_list[[k]], data = bindings)
     # will be a function if passif(), failif(), etc. but
-    # will be a checkr_result if it's something else
-    if (inherits(test, "checkr_result")) {
+    # will be a examiner_result if it's something else
+    if (inherits(test, "examiner_result")) {
       # a recursive call to if_matches()
       action  <- test$action
       message <- test$message

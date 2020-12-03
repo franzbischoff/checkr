@@ -1,5 +1,5 @@
 ## ----setup, include = FALSE----------------------------------------------
-library(checkr)
+library(examiner)
 library(ggplot2)
 library(mosaic)
 library(dplyr)
@@ -17,7 +17,7 @@ s3wrong <- "for_me <- mtcars; mosaic::rsquared(lm(data = for_me, mpg ~ 1))"
 
 ## ----echo = FALSE--------------------------------------------------------
 check_exer_1 <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE) # pre-processing
+  code <- for_examiner(USER_CODE) # pre-processing
   lm_line <- line_calling(code, lm, message = "Use lm() to construct the model.")
   lm_call <- arg_calling(lm_line, lm)
   t1 <- data_arg(lm_call, 
@@ -51,7 +51,7 @@ check_exer_1(s3wrong)
 
 ## ------------------------------------------------------------------------
 check_exer_1_v0 <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   desired <- rep(1:4, each = 3)
   line_where(code, insist(all(V == desired), "Your vector is {{V}}. That is not the result asked for."))
 }
@@ -61,7 +61,7 @@ check_exer_1_v0("c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4)")
 
 ## ------------------------------------------------------------------------
 check_exer_1_v1 <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   line_binding(code, rep(1:4, each = 3), passif(TRUE, "Just what I wanted!"), 
                message = "Sorry. Not exactly what I was looking for.")
 }
@@ -78,7 +78,7 @@ check_exer_1_v1("sort(rep(1:4, 3))")
 
 ## ------------------------------------------------------------------------
 check_exer_1_v2 <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   desired <- rep(1:4, each = 3)
   line_a <- line_calling(code, rep, message = "I'm not seeing where you used `rep()`.")
   t1 <- vector_arg(line_a, insist(all(V == 1:4), "Where did you use `1:4`?"))
@@ -92,7 +92,7 @@ check_exer_1_v2("sort(rep(1:4, 3))")
 
 ## ------------------------------------------------------------------------
 check_exer_1_v3 <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   desired <- rep(1:4, each = 3)
   LineA <- line_calling(code, rep, message = "I'm not seeing where you used `rep()`.")
   t1 <- vector_arg(LineA, insist(all(V == 1:4), "Where did you use `1:4`?"))
@@ -115,7 +115,7 @@ s4 <- quote(bees <- read.csv("http://www.lock5stat.com/datasets/HoneybeeCircuits
 ## ------------------------------------------------------------------------
 # we are still in the file check_bee_data.R
 check_bee_data <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   # The messages 
   m1 <- "Right!"
   m2 <- "Notice that the filename has a CSV extension. `load()` is for reading RDA files. Try `read.csv()` instead."
@@ -129,7 +129,7 @@ check_bee_data <- function(USER_CODE) {
 ## ------------------------------------------------------------------------
 # also in the file check_bee_data.R
 check_bee_data <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   # The messages 
   m1 <- "Right!"
   m2 <- "Notice that the filename has a CSV extension. `{{F}}` is for reading RDA files. Try `read.csv()` instead."
@@ -224,11 +224,11 @@ as.list(y)
 
 ## ------------------------------------------------------------------------
 s1 <- quote(Bees <- read.csv("bee_file.csv"))
-code <- for_checkr(s1)
+code <- for_examiner(s1)
 
 ## ----eval = FALSE--------------------------------------------------------
 #  USER_CODE <- quote({x <- sqrt(cos(pi)); Health <- data.frame(blood_pressure = c(120, 130, 115))})
-#  code <- for_checkr(USER_CODE)
+#  code <- for_examiner(USER_CODE)
 #  L1 <- line_where(code,
 #                   insist(is.data.frame(V), "Didn't find an appropriate statement producing a dataframe."),
 #                   insist("blood_pressure" %in% names(V),
@@ -241,7 +241,7 @@ L2
 
 ## ------------------------------------------------------------------------
 USER_CODE <- quote(mod <- lm(mpg ~ hp + cyl, data = mtcars))
-code <- for_checkr(USER_CODE)
+code <- for_examiner(USER_CODE)
 L1 <- line_calling(code, lm)
 named_arg(L1, "data", insist(nrow(V) == 100, 
                              "Please use exactly 100 cases for fitting. You used {{nrow(V)}} cases."))
@@ -265,14 +265,14 @@ ggplot(mtcars, aes(x = hp, y = mpg, color = cyl)) +
 print_function_contents(
   check_exer_14,
   from_file = system.file("learnr_examples/internal-examples.R", 
-                          package = "checkr"), 
+                          package = "examiner"), 
   just_the_body = FALSE)
 
 ## ------------------------------------------------------------------------
 check_exer_14(submission)
 
 ## ------------------------------------------------------------------------
-CODE <- for_checkr(quote(15 * cos(53)))
+CODE <- for_examiner(quote(15 * cos(53)))
 t1 <- line_calling(CODE, sin, cos, tan, message = "You should be using a trigonometric function.")
 miss1 <- line_calling(t1, cos)
 t1 <- misconception(t1, miss1, message = "Are you sure cosine is the right choice?")
@@ -285,7 +285,7 @@ line_where(t1, insist(is.numeric(V)),
 
 ## ------------------------------------------------------------------------
 chk_exer_9 <- function(USER_CODE) {
-  code <- for_checkr(USER_CODE)
+  code <- for_examiner(USER_CODE)
   t1 <- line_chaining(code, message = "Remember, chains involve `%>%`.")
   check(t1, 
         insist(identical(V, mtcars %>% group_by(cyl) %>% summarise(disp = mean(disp))), 
